@@ -82,7 +82,7 @@ const handleSubmit = () => {
             class="form-input block w-full bg-gray-200 px-4 py-3 rounded-lg focus:bg-white focus:outline-none focus:shadow-outline"
             type="text"
             placeholder="Type your prefered hours. e.g. 9-5"
-          />
+          >
         </div>
       </div>
 
@@ -95,7 +95,7 @@ const handleSubmit = () => {
           v-model="startDate"
           class="form-input block w-full bg-gray-200 px-4 py-3 rounded-lg focus:bg-white focus:outline-none focus:shadow-outline"
           type="date"
-        />
+        >
       </div>
 
       <div class="mb-4">
@@ -125,7 +125,7 @@ const handleSubmit = () => {
               type="radio"
               class="form-radio"
               value="yes"
-            />
+            >
             <span class="ml-2">Yes</span>
           </div>
           <div class="inline-flex items-center ml-6">
@@ -135,7 +135,7 @@ const handleSubmit = () => {
               class="form-radio"
               value="no"
               checked
-            />
+            >
             <span class="ml-2">No</span>
           </div>
         </div>
@@ -178,7 +178,7 @@ const handleSubmit = () => {
         </select>
       </div>
 
-      <input type="submit" />
+      <input type="submit">
     </form>
     <SearchMap
       :center="defaultLocation as google.maps.LatLngLiteral"

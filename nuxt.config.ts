@@ -9,8 +9,8 @@ export default defineNuxtConfig({
     // Keys within public are also exposed client-side
     public: {
       apiBase: '/api',
-      googleApiKey: process.env.GOOGLE_API_KEY
-    }
+      googleApiKey: process.env.GOOGLE_API_KEY,
+    },
   },
   css: ['@/assets/css/main.css'],
   postcss: {
@@ -18,26 +18,32 @@ export default defineNuxtConfig({
       'postcss-import': {},
       'tailwindcss/nesting': {},
       tailwindcss: {},
-      autoprefixer: {}
-    }
-  },
-  modules: ['unplugin-icons/nuxt', '@nuxtjs/tailwindcss', '@nuxtjs/supabase', [
-    '@pinia/nuxt',
-    {
-      autoImports: [
-        'defineStore', // import { defineStore } from 'pinia'
-        // automatically imports `defineStore` as `definePiniaStore`
-        ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
-      ],
+      autoprefixer: {},
     },
+  },
+  modules: [
+    'unplugin-icons/nuxt',
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/supabase',
+    [
+      '@pinia/nuxt',
+      {
+        autoImports: [
+          'defineStore', // import { defineStore } from 'pinia'
+          // automatically imports `defineStore` as `definePiniaStore`
+          ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+        ],
+      },
+    ],
+    '@nuxt/image',
+    '@nuxt/eslint',
   ],
-  '@nuxt/image'],
   // buildModules: [
   //   ['unplugin-icons/nuxt', {
   //   }],
   // ],
   supabase: {
-    redirect: false
+    redirect: false,
     // Options
   },
   // image: {
@@ -45,5 +51,5 @@ export default defineNuxtConfig({
   // },
   imports: {
     dirs: ['stores'],
-  }
+  },
 })
