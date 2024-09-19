@@ -33,7 +33,7 @@ const login = async (values: zod.infer<typeof formObject>) => {
   }
 }
 
-const oauthLogin = async (oauthProvider: any) => {
+const oauthLogin = async (oauthProvider) => {
   const authLogin = await supabase.auth.signInWithOAuth({
     provider: oauthProvider
   })

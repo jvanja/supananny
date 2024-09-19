@@ -22,7 +22,7 @@ const toggleParent = (isParent: boolean) => {
         <RegisterStepOne @is-parent="toggleParent" />
       </template>
       <template v-else>
-        <RegisterStepTwo />
+        <RegisterStepTwo :is-parent="signUp.isParent" />
       </template>
       <RegisterFormNavigation :current-step="step" :total-steps="2" :is-next-button-disabled="false" @step-change="stepChange" />
     </div>
