@@ -12,7 +12,7 @@ export default function useAuthUser() {
     const { data: user, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
     const metaResponse = await supabase.from('users_meta').select('*').eq('uuid', user.user?.id).limit(1)
-    // if (metaResponse.error) throw metaResponse.error;
+    if (metaResponse.error) throw metaResponse.error;
     const fullResponse = {user, meta: metaResponse.data}
     return fullResponse;
   };
