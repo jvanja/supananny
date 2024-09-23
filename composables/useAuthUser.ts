@@ -59,9 +59,12 @@ export default function useAuthUser() {
   const register = async ({ email, password }:{email: string, password: string}) => {
     const { data: user, error } = await supabase.auth.signUp({ email, password })
     if (error) throw error;
-    const metaResponse = await supabase.from('users_meta').insert({ uuid: user.user?.id, job_type: 3 })
+    const metaResponse = await supabase.from('users_meta').insert({ uuid: user.user?.id, job_type: 3 }).select()
     if(metaResponse.error) throw metaResponse.error
-    return user;
+    return {
+      user,
+      meta: metaResponse.data[0]
+    }
   };
 
   /**

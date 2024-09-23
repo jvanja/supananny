@@ -1,4 +1,4 @@
-import { Database } from '~~/types/database.types'
+import type { Database } from '~~/types/database.types'
 type User = Database['public']['Tables']['users_meta']['Row']
 
 type UserState = {

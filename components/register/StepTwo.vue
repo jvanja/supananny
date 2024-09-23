@@ -22,15 +22,16 @@ defineProps<{
 // const supabase = useSupabaseClient<Database>()
 const errorMessage = ref('')
 const onSubmit = async (values: { email: string; password: string }) => {
-  // const { error } = await supabase.auth.signUp(values)
-  // if (error) {
-  //   errorMessage.value = error.message
-  // }
 
   try {
-    await useAuthUser().register(values)
+    const response = await useAuthUser().register(values)
+    if (response.meta.job_type === 3) {
+      await navigateTo('/welcome')
+    } else {
+      await navigateTo('/dashboard')
+    }
   } catch (error) {
-    errorMessage.value = error
+    errorMessage.value = String(error)
   }
 }
 </script>

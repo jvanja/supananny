@@ -1,4 +1,5 @@
 <script setup>
+import { useUserStore } from '@/stores/user'
 import { ref } from 'vue'
 import {
   Switch,
@@ -18,10 +19,12 @@ definePageMeta({
   // layout: 'dashboard'
 })
 
+const userStore = useUserStore()?.getUserData
+
 const user = {
-  name: 'Debbie Lewis',
-  handle: 'deblewis',
+  name: userStore?.name,
   email: 'debbielewis@example.com',
+  about: userStore?.about,
   imageUrl:
     'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80'
 }
@@ -59,7 +62,7 @@ const allowMentions = ref(true)
           <div class="py-6 px-4 sm:p-6 lg:pb-8">
             <div>
               <h2 class="text-lg leading-6 font-medium text-gray-900">
-                Profile
+                {{user.user_type ? 'Nanny' : 'Admin'}} profile
               </h2>
               <p class="mt-1 text-sm text-gray-500">
                 This information will be displayed publicly so be careful what you share.
@@ -68,35 +71,16 @@ const allowMentions = ref(true)
 
             <div class="mt-6 flex flex-col lg:flex-row">
               <div class="flex-grow space-y-6">
-                <div>
-                  <label for="username" class="block text-sm font-medium text-gray-700">
-                    Username
-                  </label>
-                  <div class="mt-1 rounded-md shadow-sm flex">
-                    <span class="bg-gray-50 border border-r-0 border-gray-300 rounded-l-md px-3 inline-flex items-center text-gray-500 sm:text-sm">
-                      workcation.com/
-                    </span>
-                    <input
-                      id="username"
-                      type="text"
-                      name="username"
-                      autocomplete="username"
-                      class="focus:ring-light-blue-500 focus:border-light-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
-                      :value="user.handle"
-                    >
-                  </div>
-                </div>
 
                 <div>
                   <label for="about" class="block text-sm font-medium text-gray-700">
                     About
                   </label>
                   <div class="mt-1">
-                    <textarea id="about" name="about" rows="3" class="shadow-sm focus:ring-light-blue-500 focus:border-light-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md" />
+                    <client-only>
+                      <textarea id="about" name="about" rows="3" class="shadow-sm focus:ring-light-blue-500 focus:border-light-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md" :placeholder="user.about"></textarea>
+                    </client-only>
                   </div>
-                  <p class="mt-2 text-sm text-gray-500">
-                    Brief description for your profile. URLs are hyperlinked.
-                  </p>
                 </div>
               </div>
 
@@ -134,13 +118,17 @@ const allowMentions = ref(true)
 
             <div class="mt-6 grid grid-cols-12 gap-6">
               <div class="col-span-12 sm:col-span-6">
-                <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
-                <input id="first_name" type="text" name="first_name" autocomplete="given-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm">
+                <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                <client-only>
+                  <input id="first_name" type="text" name="first_name" autocomplete="given-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" :placeholder="user.name?.split(' ')[0]">
+                </client-only>
               </div>
 
               <div class="col-span-12 sm:col-span-6">
                 <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
-                <input id="last_name" type="text" name="last_name" autocomplete="family-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm">
+                <client-only>
+                  <input id="last_name" type="text" name="last_name" autocomplete="family-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" :placeholder="user.name?.split(' ')[1]">
+                </client-only>
               </div>
 
               <div class="col-span-12">
