@@ -26,7 +26,8 @@ const user = {
   email: 'debbielewis@example.com',
   about: userStore?.about,
   imageUrl:
-    'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80'
+    'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80',
+  canDrive: userStore?.can_drive
 }
 const subNavigation = [
   { name: 'Profile', href: '#', icon: UserCircleIcon, current: true },
@@ -36,6 +37,7 @@ const subNavigation = [
   { name: 'Billing', href: '#', icon: CreditCardIcon, current: false }
 ]
 
+const canDrive = ref(user.canDrive)
 const availableToHire = ref(true)
 const privateAccount = ref(false)
 const allowCommenting = ref(true)
@@ -78,7 +80,7 @@ const allowMentions = ref(true)
                   </label>
                   <div class="mt-1">
                     <client-only>
-                      <textarea id="about" name="about" rows="3" class="shadow-sm focus:ring-light-blue-500 focus:border-light-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md" :placeholder="user.about"></textarea>
+                      <textarea id="about" name="about" rows="3" class="shadow-sm focus:ring-light-blue-500 focus:border-light-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md" :placeholder="userStore.about"></textarea>
                     </client-only>
                   </div>
                 </div>
@@ -132,8 +134,20 @@ const allowMentions = ref(true)
               </div>
 
               <div class="col-span-12">
-                <label for="url" class="block text-sm font-medium text-gray-700">URL</label>
-                <input id="url" type="text" name="url" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm">
+                <SwitchGroup as="li" class="py-4 flex items-center justify-between">
+                  <div class="flex flex-col">
+                    <SwitchLabel as="p" class="block text-sm font-medium text-gray-700" passive>
+                      Can I drive?
+                    </SwitchLabel>
+                    <SwitchDescription class="text-sm text-gray-500">
+                      I have a valid driver's license and I am over 18 years old.
+                    </SwitchDescription>
+                  </div>
+                  <Switch v-model="canDrive" :class="[canDrive ? 'bg-teal-500' : 'bg-gray-200', 'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500']">
+                    <span class="sr-only">Use setting</span>
+                    <span aria-hidden="true" :class="[canDrive ? 'translate-x-5' : 'translate-x-0', 'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']" />
+                  </Switch>
+                </SwitchGroup>
               </div>
 
               <div class="col-span-12 sm:col-span-6">
