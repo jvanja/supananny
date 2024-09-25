@@ -56,7 +56,7 @@ if (user.value) {
       </button>
 
       <!-- Profile dropdown -->
-      <Menu as="div" class="ml-3 relative z-1">
+      <Menu as="div" class="ml-3 relative z-10">
         <div>
           <MenuButton class="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <span class="sr-only">Open user menu</span>
