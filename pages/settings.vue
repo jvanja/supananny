@@ -6,7 +6,6 @@ import {
   SwitchGroup,
   SwitchLabel,
 } from '@headlessui/vue'
-
 import UserCircleIcon from '~icons/heroicons/user-circle'
 import CogIcon from '~icons/heroicons/cog'
 import KeyIcon from '~icons/heroicons/key'
@@ -17,6 +16,13 @@ definePageMeta({
   middleware: 'auth',
 })
 
+const subNavigation = [
+  { name: 'Profile', href: '#', icon: UserCircleIcon, current: true },
+  { name: 'Account', href: '#', icon: CogIcon, current: false },
+  { name: 'Password', href: '#', icon: KeyIcon, current: false },
+  { name: 'Notifications', href: '#', icon: BellIcon, current: false },
+  { name: 'Billing', href: '#', icon: CreditCardIcon, current: false },
+]
 const userStore = useUserStore()
 const userData = computed(() => userStore.getUserData)
 
@@ -28,27 +34,14 @@ const user = computed(() => ({
   canDrive: userData.value?.can_drive,
 }))
 
-const subNavigation = [
-  { name: 'Profile', href: '#', icon: UserCircleIcon, current: true },
-  { name: 'Account', href: '#', icon: CogIcon, current: false },
-  { name: 'Password', href: '#', icon: KeyIcon, current: false },
-  { name: 'Notifications', href: '#', icon: BellIcon, current: false },
-  { name: 'Billing', href: '#', icon: CreditCardIcon, current: false },
-]
-// const canDrive = computed({
-//     get: () => user.value.canDrive,
-//     set: (newValue) => {
-//     userStore.updateUserField(userData.value, {can_drive: newValue})
-//     },
-// })
 const availableToHire = ref(true)
 const privateAccount = ref(false)
 const allowCommenting = ref(true)
 const allowMentions = ref(true)
 
-// function toggleCanDrive() {
-//     userStore.setUser({ ...userData.value, can_drive: !canDrive.value })
-// }
+function toggleCanDrive() {
+  userStore.updateUserField({ can_drive: !userData.value.can_drive })
+}
 </script>
 <template>
   <div class="relative">
@@ -248,6 +241,7 @@ const allowMentions = ref(true)
                       userData.can_drive ? 'bg-teal-500' : 'bg-gray-200',
                       'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500',
                     ]"
+                    @click="toggleCanDrive"
                   >
                     <span class="sr-only">Use setting</span>
                     <span
