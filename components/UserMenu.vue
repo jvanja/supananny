@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { Database } from '~~/types/database.types'
-import { useUserStore } from '~/stores/user'
+import type { Database } from '~~/types/database.types'
+// import { useUserStore } from '~/stores/user'
 import PlusIcon from '~icons/heroicons/plus-20-solid'
 import BellIcon from '~icons/heroicons/bell'
 
@@ -15,7 +15,7 @@ defineProps({
 
 const router = useRouter()
 const supabase = useSupabaseClient<Database>()
-const user = useSupabaseUser()
+// const user = useSupabaseUser()
 
 // state
 const userId = ref()
@@ -29,16 +29,18 @@ const signout = async () => {
   router.push('/')
 }
 
-const userStore = useUserStore()
-if (user.value) {
-  const { data, error } = await supabase.from('users_meta').select('*').eq('uuid', user.value.id)
-  if (error) {
-    console.log(error)
-  } else {
-    userId.value = data[0].id
-    userStore.setUser(data[0])
-  }
-}
+// - TODO:
+// WTF us this for?
+// const userStore = useUserStore()
+// if (user.value) {
+//   const { data, error } = await supabase.from('users_meta').select('*').eq('uuid', user.value.id)
+//   if (error) {
+//     console.log(error)
+//   } else {
+//     userId.value = data[0].id
+//     userStore.updateUser(data[0])
+//   }
+// }
 
 </script>
 <template>
