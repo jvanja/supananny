@@ -21,7 +21,7 @@ export const useUserStore = defineStore('user', {
     async fetchAndSetUserData() {
       const userData = await fetchUserData()
       if (userData) {
-        this.userData = userData 
+        this.userData = userData
       }
     },
 
@@ -33,15 +33,15 @@ export const useUserStore = defineStore('user', {
             .from('users_meta')
             .update(field)
             .match({ id: this.userData.id })
-            
+
           if (!error) {
             // Merge the updated fields with the current userData
             this.userData = { ...this.userData, ...field }
           } else {
-            console.error("Error updating user field", error)
+            console.error('Error updating user field', error)
           }
         } catch (e) {
-          console.error("Error in updateUserField action", e)
+          console.error('Error in updateUserField action', e)
         }
       }
     },
@@ -49,12 +49,15 @@ export const useUserStore = defineStore('user', {
 })
 
 async function fetchUserData() {
-  try {
-    const userMeta = await useAuthUser().getUserMeta()
-    return userMeta
-  } catch (e) {
-    console.log('Error fetching user data:', e)
-    return null
+  const supabase = useSupabaseClient<Database>()
+  const { data } = await supabase.auth.getSession()
+  if (data.session) {
+    try {
+      const userMeta = await useAuthUser().getUserMeta()
+      return userMeta
+    } catch (e) {
+      console.log('Error fetching user data:', e)
+      return null
+    }
   }
 }
-

@@ -1,5 +1,5 @@
-<script setup>
-import { ref, computed } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 import {
   Switch,
   SwitchDescription,
@@ -11,6 +11,7 @@ import CogIcon from '~icons/heroicons/cog'
 import KeyIcon from '~icons/heroicons/key'
 import BellIcon from '~icons/heroicons/bell'
 import CreditCardIcon from '~icons/heroicons/credit-card'
+import type { Database } from '~~/types/database.types'
 
 definePageMeta({
   middleware: 'auth',
@@ -23,24 +24,25 @@ const subNavigation = [
   { name: 'Notifications', href: '#', icon: BellIcon, current: false },
   { name: 'Billing', href: '#', icon: CreditCardIcon, current: false },
 ]
+
+type User = Database['public']['Tables']['users_meta']['Row']
 const userStore = useUserStore()
 const userData = computed(() => userStore.getUserData)
 
-const user = computed(() => ({
-  name: userData.value?.name || '',
-  email: userData.value?.email || 'debbielewis@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80',
-  canDrive: userData.value?.can_drive,
-}))
+// - TODO:
+// Use below to et the email and name from
+// const supabase = useSupabaseClient()
+// const { data: { user }} = await supabase.auth.getUser()
+// console.log(user)
 
-const availableToHire = ref(true)
-const privateAccount = ref(false)
-const allowCommenting = ref(true)
-const allowMentions = ref(true)
+const userPicture = computed(
+  () =>
+    userData.value?.picture ||
+    'https://img.freepik.com/premium-vector/default-female-user-profile-icon-vector-illustration_276184-169.jpg'
+)
 
-function updateUserField() {
-  userStore.updateUserField({ can_drive: !userData.value.can_drive })
+function updateUserField(field: Partial<User>) {
+  userStore.updateUserField(field)
 }
 </script>
 <template>
@@ -89,7 +91,7 @@ function updateUserField() {
           <div class="py-6 px-4 sm:p-6 lg:pb-8">
             <div>
               <h2 class="text-lg leading-6 font-medium text-gray-900">
-                {{ user.user_type ? 'Nanny' : 'Admin' }}
+                {{ userData?.user_type === 1 ? 'Nanny' : 'Admin' }}
                 profile
               </h2>
               <p class="mt-1 text-sm text-gray-500">
@@ -110,11 +112,12 @@ function updateUserField() {
                   <div class="mt-1">
                     <textarea
                       id="about"
+                      v-model="userData!.about"
                       name="about"
                       rows="3"
                       class="shadow-sm focus:ring-light-blue-500 focus:border-light-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
+                      @change="updateUserField({ about: $event.target!.value })"
                     ></textarea>
-                    <!-- :placeholder="userData.about ? userData.about : ''" -->
                   </div>
                 </div>
               </div>
@@ -133,7 +136,7 @@ function updateUserField() {
                     >
                       <img
                         class="rounded-full h-full w-full"
-                        :src="user.imageUrl"
+                        :src="userPicture"
                         alt=""
                       />
                     </div>
@@ -164,7 +167,7 @@ function updateUserField() {
                 >
                   <img
                     class="relative rounded-full w-40 h-40"
-                    :src="user.imageUrl"
+                    :src="userPicture"
                     alt=""
                   />
                   <label
@@ -197,8 +200,11 @@ function updateUserField() {
                   name="first_name"
                   autocomplete="given-name"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm"
+                  :placeholder="
+                    userData!.name ? userData!.name.split(' ')[0] : ''
+                  "
+                  required
                 />
-                <!-- :placeholder="user.name ? user.name.split(' ')[0] : ''" -->
               </div>
 
               <div class="col-span-12 sm:col-span-6">
@@ -213,8 +219,57 @@ function updateUserField() {
                   name="last_name"
                   autocomplete="family-name"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm"
+                  :placeholder="
+                    userData!.name ? userData!.name.split(' ')[1] : ''
+                  "
+                  required
                 />
-                <!-- :placeholder="user.name ? user.name.split(' ')[1] : ''" -->
+              </div>
+
+              <div class="col-span-12">
+                <SwitchGroup
+                  as="li"
+                  class="py-4 flex items-center justify-between"
+                >
+                  <div class="flex flex-col">
+                    <SwitchLabel
+                      as="p"
+                      class="block text-sm font-medium text-gray-700"
+                      passive
+                    >
+                      Full or part-time
+                    </SwitchLabel>
+                    <SwitchDescription class="text-sm text-gray-500">
+                      I am looking for full-time or part-time work.
+                    </SwitchDescription>
+                  </div>
+                  <Switch
+                    v-model="userData!.full_time_or_part_time"
+                    :class="[
+                      userData!.full_time_or_part_time
+                        ? 'bg-teal-500'
+                        : 'bg-gray-200',
+                      'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500',
+                    ]"
+                    @click="
+                      updateUserField({
+                        full_time_or_part_time:
+                          !userData!.full_time_or_part_time,
+                      })
+                    "
+                  >
+                    <span class="sr-only">Use setting</span>
+                    <span
+                      aria-hidden="true"
+                      :class="[
+                        userData!.full_time_or_part_time
+                          ? 'translate-x-5'
+                          : 'translate-x-0',
+                        'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200',
+                      ]"
+                    />
+                  </Switch>
+                </SwitchGroup>
               </div>
 
               <div class="col-span-12">
@@ -236,18 +291,20 @@ function updateUserField() {
                     </SwitchDescription>
                   </div>
                   <Switch
-                    v-model="userData.can_drive"
+                    v-model="userData!.can_drive"
                     :class="[
-                      userData.can_drive ? 'bg-teal-500' : 'bg-gray-200',
+                      userData!.can_drive ? 'bg-teal-500' : 'bg-gray-200',
                       'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500',
                     ]"
-                    @click="updateUserField"
+                    @click="
+                      updateUserField({ can_drive: !userData!.can_drive })
+                    "
                   >
                     <span class="sr-only">Use setting</span>
                     <span
                       aria-hidden="true"
                       :class="[
-                        userData.can_drive ? 'translate-x-5' : 'translate-x-0',
+                        userData!.can_drive ? 'translate-x-5' : 'translate-x-0',
                         'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200',
                       ]"
                     />
@@ -280,7 +337,7 @@ function updateUserField() {
                   Privacy
                 </h2>
                 <p class="mt-1 text-sm text-gray-500">
-                  Ornare eu a volutpat eget vulputate. Fringilla commodo amet.
+                  This is where you can control your privacy settings
                 </p>
               </div>
               <ul class="mt-2 divide-y divide-gray-200">
@@ -297,122 +354,30 @@ function updateUserField() {
                       Available to hire
                     </SwitchLabel>
                     <SwitchDescription class="text-sm text-gray-500">
-                      Nulla amet tempus sit accumsan. Aliquet turpis sed sit
-                      lacinia.
+                      If this is unchecked, you will not be visible to employers
                     </SwitchDescription>
                   </div>
                   <Switch
-                    v-model="availableToHire"
+                    v-model="userData!.available_to_hire"
                     :class="[
-                      availableToHire ? 'bg-teal-500' : 'bg-gray-200',
+                      userData!.available_to_hire
+                        ? 'bg-teal-500'
+                        : 'bg-gray-200',
                       'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500',
                     ]"
+                    @click="
+                      updateUserField({
+                        available_to_hire: !userData!.available_to_hire,
+                      })
+                    "
                   >
                     <span class="sr-only">Use setting</span>
                     <span
                       aria-hidden="true"
                       :class="[
-                        availableToHire ? 'translate-x-5' : 'translate-x-0',
-                        'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200',
-                      ]"
-                    />
-                  </Switch>
-                </SwitchGroup>
-                <SwitchGroup
-                  as="li"
-                  class="py-4 flex items-center justify-between"
-                >
-                  <div class="flex flex-col">
-                    <SwitchLabel
-                      as="p"
-                      class="text-sm font-medium text-gray-900"
-                      passive
-                    >
-                      Make account private
-                    </SwitchLabel>
-                    <SwitchDescription class="text-sm text-gray-500">
-                      Pharetra morbi dui mi mattis tellus sollicitudin cursus
-                      pharetra.
-                    </SwitchDescription>
-                  </div>
-                  <Switch
-                    v-model="privateAccount"
-                    :class="[
-                      privateAccount ? 'bg-teal-500' : 'bg-gray-200',
-                      'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500',
-                    ]"
-                  >
-                    <span class="sr-only">Use setting</span>
-                    <span
-                      aria-hidden="true"
-                      :class="[
-                        privateAccount ? 'translate-x-5' : 'translate-x-0',
-                        'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200',
-                      ]"
-                    />
-                  </Switch>
-                </SwitchGroup>
-                <SwitchGroup
-                  as="li"
-                  class="py-4 flex items-center justify-between"
-                >
-                  <div class="flex flex-col">
-                    <SwitchLabel
-                      as="p"
-                      class="text-sm font-medium text-gray-900"
-                      passive
-                    >
-                      Allow commenting
-                    </SwitchLabel>
-                    <SwitchDescription class="text-sm text-gray-500">
-                      Integer amet, nunc hendrerit adipiscing nam. Elementum ame
-                    </SwitchDescription>
-                  </div>
-                  <Switch
-                    v-model="allowCommenting"
-                    :class="[
-                      allowCommenting ? 'bg-teal-500' : 'bg-gray-200',
-                      'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500',
-                    ]"
-                  >
-                    <span class="sr-only">Use setting</span>
-                    <span
-                      aria-hidden="true"
-                      :class="[
-                        allowCommenting ? 'translate-x-5' : 'translate-x-0',
-                        'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200',
-                      ]"
-                    />
-                  </Switch>
-                </SwitchGroup>
-                <SwitchGroup
-                  as="li"
-                  class="py-4 flex items-center justify-between"
-                >
-                  <div class="flex flex-col">
-                    <SwitchLabel
-                      as="p"
-                      class="text-sm font-medium text-gray-900"
-                      passive
-                    >
-                      Allow mentions
-                    </SwitchLabel>
-                    <SwitchDescription class="text-sm text-gray-500">
-                      Adipiscing est venenatis enim molestie commodo eu gravid
-                    </SwitchDescription>
-                  </div>
-                  <Switch
-                    v-model="allowMentions"
-                    :class="[
-                      allowMentions ? 'bg-teal-500' : 'bg-gray-200',
-                      'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500',
-                    ]"
-                  >
-                    <span class="sr-only">Use setting</span>
-                    <span
-                      aria-hidden="true"
-                      :class="[
-                        allowMentions ? 'translate-x-5' : 'translate-x-0',
+                        userData!.available_to_hire
+                          ? 'translate-x-5'
+                          : 'translate-x-0',
                         'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200',
                       ]"
                     />

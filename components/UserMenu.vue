@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import type { Database } from '~~/types/database.types'
-// import { useUserStore } from '~/stores/user'
 import PlusIcon from '~icons/heroicons/plus-20-solid'
 import BellIcon from '~icons/heroicons/bell'
+
+definePageMeta({
+  middleware: 'auth',
+})
 
 defineEmits(['logout'])
 defineProps({
@@ -15,10 +18,6 @@ defineProps({
 
 const router = useRouter()
 const supabase = useSupabaseClient<Database>()
-// const user = useSupabaseUser()
-
-// state
-const userId = ref()
 
 // methods
 const signout = async () => {
@@ -29,18 +28,14 @@ const signout = async () => {
   router.push('/')
 }
 
-// - TODO:
-// WTF us this for?
-// const userStore = useUserStore()
-// if (user.value) {
-//   const { data, error } = await supabase.from('users_meta').select('*').eq('uuid', user.value.id)
-//   if (error) {
-//     console.log(error)
-//   } else {
-//     userId.value = data[0].id
-//     userStore.updateUser(data[0])
-//   }
-// }
+const userStore = useUserStore()
+const userData = computed(() => userStore.getUserData)
+const userId = computed(() => userData.value?.id)
+const userPicture = computed(
+  () =>
+    userData.value?.picture ||
+    'https://img.freepik.com/premium-vector/default-female-user-profile-icon-vector-illustration_276184-169.jpg'
+)
 
 </script>
 <template>
@@ -62,7 +57,7 @@ const signout = async () => {
         <div>
           <MenuButton class="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <span class="sr-only">Open user menu</span>
-            <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+            <img class="h-8 w-8 rounded-full" :src="userPicture" alt="">
           </MenuButton>
         </div>
         <transition
@@ -103,7 +98,7 @@ const signout = async () => {
       <div class="flex-shrink-0">
         <img
           class="h-10 w-10 rounded-full"
-          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          :src="userPicture"
           alt=""
         >
       </div>
