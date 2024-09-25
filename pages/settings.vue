@@ -39,7 +39,7 @@ const privateAccount = ref(false)
 const allowCommenting = ref(true)
 const allowMentions = ref(true)
 
-function toggleCanDrive() {
+function updateUserField() {
   userStore.updateUserField({ can_drive: !userData.value.can_drive })
 }
 </script>
@@ -241,7 +241,7 @@ function toggleCanDrive() {
                       userData.can_drive ? 'bg-teal-500' : 'bg-gray-200',
                       'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500',
                     ]"
-                    @click="toggleCanDrive"
+                    @click="updateUserField"
                   >
                     <span class="sr-only">Use setting</span>
                     <span
