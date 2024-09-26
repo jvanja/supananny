@@ -1,6 +1,6 @@
 import type { Database } from '~~/types/database.types'
-type User = Database['public']['Tables']['users_meta']['Row']
 
+type User = Database['public']['Tables']['users_meta']['Row']
 type UserState = {
   users: User[]
   userData: User | null
