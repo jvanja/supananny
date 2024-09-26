@@ -304,7 +304,7 @@ async function updateUserProfile(e: Event) {
         <button
           type="submit"
           class="ml-5 bg-emerald-900 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-light-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500"
-          @click="updateUserProfile"
+          @click.prevent="updateUserProfile"
         >
           Save
         </button>
