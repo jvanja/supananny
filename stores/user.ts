@@ -19,9 +19,22 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     async fetchAndSetUserData() {
-      const userData = await fetchUserData()
-      if (userData) {
-        this.userData = userData
+      // const userData = await fetchUserData()
+      // if (userData) {
+      //   this.userData = userData
+      // }
+      const supabase = useSupabaseClient<Database>()
+      const { data } = await supabase.auth.getSession()
+      if (data.session) {
+        try {
+          const userMeta = await useAuthUser().getUserMeta()
+          // return userMeta
+          this.userData = userMeta as User
+        } catch (e) {
+          console.log('Error fetching user data:', e)
+          // return null
+          this.userData = null
+        }
       }
     },
 
@@ -48,16 +61,16 @@ export const useUserStore = defineStore('user', {
   },
 })
 
-async function fetchUserData() {
-  const supabase = useSupabaseClient<Database>()
-  const { data } = await supabase.auth.getSession()
-  if (data.session) {
-    try {
-      const userMeta = await useAuthUser().getUserMeta()
-      return userMeta
-    } catch (e) {
-      console.log('Error fetching user data:', e)
-      return null
-    }
-  }
-}
+// async function fetchUserData() {
+//   const supabase = useSupabaseClient<Database>()
+//   const { data } = await supabase.auth.getSession()
+//   if (data.session) {
+//     try {
+//       const userMeta = await useAuthUser().getUserMeta()
+//       return userMeta
+//     } catch (e) {
+//       console.log('Error fetching user data:', e)
+//       return null
+//     }
+//   }
+// }

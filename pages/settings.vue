@@ -42,7 +42,13 @@ const userPicture = computed(
 )
 
 function updateUserField(field: Partial<User>) {
-  userStore.updateUserField(field)
+  console.log(field)
+  // userStore.updateUserField(field)
+}
+
+function updateUserProfile() {
+  console.log(userData.value)
+  // userStore.updateUserField(field)
 }
 </script>
 <template>
@@ -203,7 +209,6 @@ function updateUserField(field: Partial<User>) {
                   :placeholder="
                     userData!.name ? userData!.name.split(' ')[0] : ''
                   "
-                  required
                 />
               </div>
 
@@ -222,7 +227,6 @@ function updateUserField(field: Partial<User>) {
                   :placeholder="
                     userData!.name ? userData!.name.split(' ')[1] : ''
                   "
-                  required
                 />
               </div>
 
@@ -395,6 +399,7 @@ function updateUserField(field: Partial<User>) {
               <button
                 type="submit"
                 class="ml-5 bg-emerald-900 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-light-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500"
+                @click="updateUserProfile"
               >
                 Save
               </button>

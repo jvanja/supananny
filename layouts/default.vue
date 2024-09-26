@@ -1,7 +1,4 @@
 <script setup>
-// is user exists fetch the initial user data
-const userStore = useUserStore()
-await userStore.fetchAndSetUserData()
 </script>
 <template>
   <div class="min-h-full">
