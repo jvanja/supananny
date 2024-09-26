@@ -38,6 +38,28 @@ export const useUserStore = defineStore('user', {
       }
     },
 
+    async updateUser() {
+      if (this.userData && this.userData.id) {
+        const supabase = useSupabaseClient<Database>()
+        try {
+          const { error } = await supabase
+            .from('users_meta')
+            .update({...this.userData})
+            .match({ id: this.userData.id })
+
+          if (!error) {
+            return true
+          } else {
+            console.error('Error updating user field', error)
+            return false
+          }
+        } catch (e) {
+          console.error('Error in updateUserField action', e)
+          return false
+        }
+      }
+    },
+
     async updateUserField(field: Partial<User>) {
       if (this.userData && this.userData.id) {
         const supabase = useSupabaseClient<Database>()
