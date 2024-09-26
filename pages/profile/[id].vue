@@ -3,7 +3,7 @@ import type { Database } from '~/types/database.types'
 const supabase = useSupabaseClient<Database>()
 
 definePageMeta({
-  middleware: 'auth'
+  middleware: 'auth',
   // layout: 'dashboard'
 })
 
@@ -11,7 +11,10 @@ const route = useRoute()
 const userId = Number(route.params.id[0])
 
 const { data: users } = await useAsyncData('users_meta', async () => {
-  const { data } = await supabase.from('users_meta').select('*').eq('id', userId)
+  const { data } = await supabase
+    .from('users_meta')
+    .select('*')
+    .eq('id', userId)
   return data
 })
 </script>
