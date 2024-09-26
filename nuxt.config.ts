@@ -2,6 +2,9 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
+  colorMode: {
+    preference: 'dark'
+  },
   runtimeConfig: {
     // The private keys which are only available server-side and can be
     // overwritten by .env
@@ -21,23 +24,16 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: [
-    'unplugin-icons/nuxt',
-    '@nuxtjs/tailwindcss',
-    '@nuxtjs/supabase',
-    [
-      '@pinia/nuxt',
-      {
-        autoImports: [
-          'defineStore', // import { defineStore } from 'pinia'
-          // automatically imports `defineStore` as `definePiniaStore`
-          ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
-        ],
-      },
-    ],
-    '@nuxt/image',
-    '@nuxt/eslint',
-  ],
+  modules: ['unplugin-icons/nuxt', '@nuxtjs/supabase', [
+    '@pinia/nuxt',
+    {
+      autoImports: [
+        'defineStore', // import { defineStore } from 'pinia'
+        // automatically imports `defineStore` as `definePiniaStore`
+        ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+      ],
+    },
+  ], '@nuxt/image', '@nuxt/eslint', '@nuxt/ui'],
   // buildModules: [
   //   ['unplugin-icons/nuxt', {
   //   }],

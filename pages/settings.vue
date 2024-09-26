@@ -11,7 +11,6 @@ import CogIcon from '~icons/heroicons/cog'
 import KeyIcon from '~icons/heroicons/key'
 import BellIcon from '~icons/heroicons/bell'
 import CreditCardIcon from '~icons/heroicons/credit-card'
-import type { Database } from '~~/types/database.types'
 
 definePageMeta({
   middleware: 'auth',
@@ -25,7 +24,6 @@ const subNavigation = [
   { name: 'Billing', href: '#', icon: CreditCardIcon, current: false },
 ]
 
-type User = Database['public']['Tables']['users_meta']['Row']
 const userStore = useUserStore()
 const userData = computed(() => userStore.getUserData)
 
@@ -41,14 +39,26 @@ const userPicture = computed(
     'https://img.freepik.com/premium-vector/default-female-user-profile-icon-vector-illustration_276184-169.jpg'
 )
 
-function updateUserField(field: Partial<User>) {
-  console.log(field)
-  // userStore.updateUserField(field)
-}
-
-function updateUserProfile(e: Event) {
+async function updateUserProfile(e: Event) {
   e.preventDefault()
-  userStore.updateUser()
+  const result = await userStore.updateUser()
+  const toast = useToast()
+  if (result) {
+    toast.add({
+      title: 'Profile updated!',
+      description: 'Your profile has been successfully updated.',
+      timeout: 3000,
+      icon: 'i-heroicons-check-circle',
+    })
+  } else {
+    toast.add({
+      title: 'Profile update failed!',
+      description: 'Your profile could not be updated.',
+      timeout: 3000,
+      icon: 'i-heroicons-x-circle-16-solid',
+      color: 'red',
+    })
+  }
 }
 </script>
 <template>
@@ -122,7 +132,6 @@ function updateUserProfile(e: Event) {
                       name="about"
                       rows="3"
                       class="shadow-sm focus:ring-light-blue-500 focus:border-light-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
-                      @change="updateUserField({ about: $event.target!.value })"
                     ></textarea>
                   </div>
                 </div>
@@ -251,12 +260,6 @@ function updateUserProfile(e: Event) {
                         : 'bg-gray-200',
                       'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500',
                     ]"
-                    @click="
-                      updateUserField({
-                        full_time_or_part_time:
-                          !userData!.full_time_or_part_time,
-                      })
-                    "
                   >
                     <span class="sr-only">Use setting</span>
                     <span
@@ -296,9 +299,6 @@ function updateUserProfile(e: Event) {
                       userData!.can_drive ? 'bg-teal-500' : 'bg-gray-200',
                       'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500',
                     ]"
-                    @click="
-                      updateUserField({ can_drive: !userData!.can_drive })
-                    "
                   >
                     <span class="sr-only">Use setting</span>
                     <span
@@ -365,11 +365,6 @@ function updateUserProfile(e: Event) {
                         : 'bg-gray-200',
                       'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500',
                     ]"
-                    @click="
-                      updateUserField({
-                        available_to_hire: !userData!.available_to_hire,
-                      })
-                    "
                   >
                     <span class="sr-only">Use setting</span>
                     <span
