@@ -203,13 +203,11 @@ function updateUserProfile(e) {
                 >
                 <input
                   id="first_name"
+                  v-model="userData!.first_name"
                   type="text"
                   name="first_name"
                   autocomplete="given-name"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm"
-                  :placeholder="
-                    userData!.name ? userData!.name.split(' ')[0] : ''
-                  "
                 />
               </div>
 
@@ -221,13 +219,11 @@ function updateUserProfile(e) {
                 >
                 <input
                   id="last_name"
+                  v-model="userData!.last_name"
                   type="text"
                   name="last_name"
                   autocomplete="family-name"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm"
-                  :placeholder="
-                    userData!.name ? userData!.name.split(' ')[1] : ''
-                  "
                 />
               </div>
 
