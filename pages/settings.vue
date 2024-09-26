@@ -46,7 +46,8 @@ function updateUserField(field: Partial<User>) {
   // userStore.updateUserField(field)
 }
 
-function updateUserProfile() {
+function updateUserProfile(e) {
+  e.preventDefault()
   console.log(userData.value)
   // userStore.updateUserField(field)
 }

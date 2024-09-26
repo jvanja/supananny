@@ -143,11 +143,12 @@ export type Database = {
           available_to_hire: boolean
           can_drive: boolean | null
           created_at: string | null
+          first_name: string | null
           full_time_or_part_time: boolean | null
           id: number
           job_type: number | null
+          last_name: string | null
           location: string | null
-          name: string | null
           picture: string | null
           radius: number | null
           slug: string | null
@@ -159,11 +160,12 @@ export type Database = {
           available_to_hire?: boolean
           can_drive?: boolean | null
           created_at?: string | null
+          first_name?: string | null
           full_time_or_part_time?: boolean | null
           id?: number
           job_type?: number | null
+          last_name?: string | null
           location?: string | null
-          name?: string | null
           picture?: string | null
           radius?: number | null
           slug?: string | null
@@ -175,11 +177,12 @@ export type Database = {
           available_to_hire?: boolean
           can_drive?: boolean | null
           created_at?: string | null
+          first_name?: string | null
           full_time_or_part_time?: boolean | null
           id?: number
           job_type?: number | null
+          last_name?: string | null
           location?: string | null
-          name?: string | null
           picture?: string | null
           radius?: number | null
           slug?: string | null
