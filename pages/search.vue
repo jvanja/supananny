@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
+import { Loader } from '@googlemaps/js-api-loader'
+const config = useRuntimeConfig()
+const loader = new Loader({
+  apiKey: config.public.googleApiKey,
+  libraries: ['places'],
+})
 
 definePageMeta({
   middleware: 'auth',
@@ -120,7 +126,7 @@ const handleSubmit = () => {
 
       <div class="mb-4">
         <ClientOnly>
-          <GAutoComplete />
+          <GAutoComplete :loader="loader" />
         </ClientOnly>
       </div>
 
@@ -143,6 +149,7 @@ const handleSubmit = () => {
     <SearchMap
       :center="defaultLocation as google.maps.LatLngLiteral"
       :nannys="nannys!"
+      :loader="loader"
     />
   </div>
 </template>

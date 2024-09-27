@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { Loader } from '@googlemaps/js-api-loader'
 import type { Database } from '~/types/database.types'
+import type { Loader } from '@googlemaps/js-api-loader'
 type Nanny = Database['public']['Tables']['users_meta']['Row']
 
 const props = defineProps<{
   center: google.maps.LatLngLiteral
   nannys: Nanny[]
+  loader: Loader
 }>()
 
 const mapCanvas = ref()
@@ -22,18 +23,12 @@ onMounted(() => {
 })
 
 const loadGMaps = async () => {
-  const config = useRuntimeConfig()
-  const loader = new Loader({
-    apiKey: config.public.googleApiKey,
-    libraries: ['places'],
-  })
-
   const option: google.maps.MapOptions = {
     mapId: 'SEARCH_MAP',
     // center: props.center
     // zoom: 12
   }
-  loader
+  props.loader
     .importLibrary('maps')
     .then(async ({ Map }) => {
       const map = new Map(mapCanvas.value, option)
@@ -44,7 +39,7 @@ const loadGMaps = async () => {
       // const icon = document.createElement('img')
       // icon.src = 'https://img.icons8.com/offices/2x/person-female-skin-type-1-2.png'
 
-      const { AdvancedMarkerElement } = await loader.importLibrary('marker')
+      const { AdvancedMarkerElement } = await props.loader.importLibrary('marker')
 
       const markers: google.maps.marker.AdvancedMarkerElement[] = []
       props.nannys.forEach((place, index) => {
@@ -77,7 +72,7 @@ const loadGMaps = async () => {
       })
       map.fitBounds(bounds)
     })
-    .catch((e) => {
+    .catch((e: Error) => {
       console.log(e)
     })
 }
