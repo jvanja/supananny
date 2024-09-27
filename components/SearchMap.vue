@@ -51,7 +51,7 @@ const loadGMaps = async () => {
         markers.push(
           new AdvancedMarkerElement({
             map,
-            title: place.name,
+            title: place.first_name,
             position: locations[index],
             // content: icon,
           })
@@ -60,7 +60,7 @@ const loadGMaps = async () => {
       })
       const infoWindowContent = (nanny: Nanny) => {
         return `
-    <h3 class="info-window-title">${nanny.name}</h3>
+    <h3 class="info-window-title">${nanny.first_name}</h3>
     <div class="info-window-content">${nanny.about}</div>
     <a class="info-window-link" href="/profile/${nanny.id}">More info</a>
     `
