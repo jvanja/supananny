@@ -7,8 +7,7 @@ const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
 
 definePageMeta({
-  // middleware: 'auth'
-  // layout: 'dashboard'
+  middleware: 'auth'
 })
 
 const { data: posts } = await useAsyncData('posts', async () => {
