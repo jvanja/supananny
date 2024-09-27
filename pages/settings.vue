@@ -1,17 +1,12 @@
 <script setup lang="ts">
-// import { computed } from 'vue'
-import UserCircleIcon from '~icons/heroicons/user-circle'
-import CogIcon from '~icons/heroicons/cog'
-import CreditCardIcon from '~icons/heroicons/credit-card'
-
 definePageMeta({
   middleware: 'auth',
 })
 
 const subNavigation = [
-  { name: 'Profile', href: '#', icon: UserCircleIcon, current: true },
-  { name: 'Account', href: '#', icon: CogIcon, current: false },
-  { name: 'Billing', href: '#', icon: CreditCardIcon, current: false },
+  { name: 'Profile', href: '#', icon: 'heroicons-user-circle', current: true },
+  { name: 'Account', href: '#', icon: 'heroicons-cog', current: false },
+  { name: 'Billing', href: '#', icon: 'heroicons-credit-card', current: false },
 ]
 
 const currentTab = ref('Profile')
@@ -42,8 +37,8 @@ const changeTab = (tab: string) => {
               :aria-current="item.current ? 'page' : undefined"
               @click="changeTab(item.name)"
             >
-              <component
-                :is="item.icon"
+              <UIcon
+                :name="item.icon"
                 :class="[
                   item.current
                     ? 'text-teal-500 group-hover:text-teal-500'
