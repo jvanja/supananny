@@ -21,7 +21,6 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    'unplugin-icons/nuxt',
     '@nuxtjs/supabase',
     [
       '@pinia/nuxt',
