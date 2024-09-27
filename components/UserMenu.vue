@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import type { Database } from '~~/types/database.types'
-import PlusIcon from '~icons/heroicons/plus-20-solid'
-import BellIcon from '~icons/heroicons/bell'
 
 definePageMeta({
   middleware: 'auth',
@@ -42,14 +40,14 @@ const userPicture = computed(
   <div v-if="isDesktop == true" class="flex items-center">
     <div class="flex-shrink-0">
       <Anchor to="/search" type="button" class="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-        <PlusIcon class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+        <UIcon name="heroicons-plus-20-solid" class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
         <span>New Job</span>
       </Anchor>
     </div>
     <div class="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
       <button class="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         <span class="sr-only">View notifications</span>
-        <BellIcon class="h-6 w-6" aria-hidden="true" />
+        <UIcon name="heroicons-bell" class="h-6 w-6" aria-hidden="true" />
       </button>
 
       <!-- Profile dropdown -->
@@ -112,7 +110,7 @@ const userPicture = computed(
       </div>
       <button class="ml-auto flex-shrink-0 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         <span class="sr-only">View notifications</span>
-        <BellIcon class="h-6 w-6" aria-hidden="true" />
+        <UIcon name="heroicons-bell" class="h-6 w-6" aria-hidden="true" />
       </button>
     </div>
     <div class="mt-3 space-y-1">

@@ -1,6 +1,5 @@
 <script setup>
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import XIcon from '~icons/heroicons/x-mark'
 
 const open = ref(false)
 
@@ -42,9 +41,9 @@ defineExpose({ open })
         >
           <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
             <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
-              <button type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @click="open = false">
+              <button type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none" @click="open = false">
                 <span class="sr-only">Close</span>
-                <XIcon class="h-6 w-6" aria-hidden="true" />
+                <UIcon name="heroicons-x-mark" class="h-6 w-6" aria-hidden="true" />
               </button>
             </div>
             <div class="sm:flex sm:items-start">
