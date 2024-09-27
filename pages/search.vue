@@ -5,12 +5,36 @@ definePageMeta({
   middleware: 'auth',
 })
 
+const lookingForOptions = [
+  { name: 'Nanny', value: 'nanny'},
+  { name: 'Babysitter for the exact time (an evening, weekend etc.)', value: 'babysitter'},
+  { name: 'Shared nanny (multiple families)',value: 'shared-nanny'},
+  { name: 'Live with family housemade', value: 'housemade'},
+]
+const workingDaysOptions = [
+  { name: 'Full time', value: 'full-time'},
+  { name: 'Part time', value: 'part-time'},
+]
+const languageOptions = [
+  { name: 'English', value: 'en'},
+  { name: 'German', value: 'de'},
+  { name: 'Russian', value: 'ru'},
+  { name: 'French', value: 'fr'},
+]
+const confidenceOptions = [
+  { name: 'Confidence (has reviews)', value: '1'},
+  { name: 'Training and certificates', value: '2'},
+  { name: 'Additional services (can cook, clean etc.)', value: '4'},
+]
+const childrenNumberOptions = ['1', '2', '3', '4']
 const lookingFor = ref()
 const isFullTime = ref('full-time')
 const startDate = ref()
 const workingHours = ref()
+const childrenNumber = ref(1)
 const canDrive = ref(false)
 const languages = ref([])
+const needsReviews = ref(1)
 
 const defaultLocation = { lat: 44.8125, lng: 20.4612 } // Belgrade
 
@@ -35,6 +59,7 @@ const handleSubmit = () => {
     languages.value
   )
 }
+
 </script>
 <template>
   <div class="flex">
@@ -43,46 +68,25 @@ const handleSubmit = () => {
         <label class="block text-gray-700 font-bold mb-2" for="looking-for"
           >What are you looking for?</label
         >
-        <select
-          id="looking-for"
-          v-model="lookingFor"
-          class="form-select block w-full bg-gray-200 px-4 py-3 rounded-lg focus:bg-white focus:outline-none focus:shadow-outline"
-          required
-        >
-          <option value="" />
-          <option value="nanny">Nanny</option>
-          <option value="babysitter">
-            Babysitter for the exact time (an evening, weekend etc.)
-          </option>
-          <option value="shared-nanny">Shared nanny (multiple families)</option>
-          <option value="live-in-nanny">Live with family housemade</option>
-        </select>
+        <USelect id="looking-for" v-model="lookingFor" :options="lookingForOptions" option-attribute="name" />
       </div>
 
       <div v-if="['nanny', 'shared-nanny'].includes(lookingFor)" class="mb-4">
         <label class="block text-gray-700 font-bold mb-2" for="working-days"
           >Full time / Part time</label
         >
-        <select
-          id="working-days"
-          v-model="isFullTime"
-          class="form-select block w-full bg-gray-200 px-4 py-3 rounded-lg focus:bg-white focus:outline-none focus:shadow-outline"
-        >
-          <option value="full-time">Full time</option>
-          <option value="part-time">Part time</option>
-        </select>
+        <USelect id="working-days" v-model="isFullTime" :options="workingDaysOptions" option-attribute="name" />
 
-        <div v-if="isFullTime === 'part-time'">
+        <div v-if="isFullTime === 'part-time'" class="mt-4">
           <label class="block text-gray-700 font-bold mb-2" for="working-hours"
             >The working hours</label
           >
-          <input
+          <UInput
             id="working-hours"
             v-model="workingHours"
-            class="form-input block w-full bg-gray-200 px-4 py-3 rounded-lg focus:bg-white focus:outline-none focus:shadow-outline"
             type="text"
             placeholder="Type your prefered hours. e.g. 9-5"
-          >
+          />
         </div>
       </div>
 
@@ -93,7 +97,7 @@ const handleSubmit = () => {
         <input
           id="start-date"
           v-model="startDate"
-          class="form-input block w-full bg-gray-200 px-4 py-3 rounded-lg focus:bg-white focus:outline-none focus:shadow-outline"
+          class="relative block w-full disabled:cursor-not-allowed disabled:opacity-75 focus:outline-none border-0 form-input rounded-md placeholder-gray-400 dark:placeholder-gray-500 text-sm px-2.5 py-1.5 shadow-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white ring-1 ring-inset ring-gray-300 dark:ring-gray-700 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
           type="date"
         >
       </div>
@@ -102,15 +106,7 @@ const handleSubmit = () => {
         <label class="block text-gray-700 font-bold mb-2" for="children-number"
           >How many children will she guard?</label
         >
-        <select
-          id="children-number"
-          class="form-select block w-full bg-gray-200 px-4 py-3 rounded-lg focus:bg-white focus:outline-none focus:shadow-outline"
-        >
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
+        <USelect id="children-number" v-model="childrenNumber" :options="childrenNumberOptions" option-attribute="name" />
       </div>
 
       <div class="mb-4">
@@ -118,26 +114,7 @@ const handleSubmit = () => {
           >Will nanny have to drive children? (from school etc.)</label
         >
         <div class="mt-2">
-          <div class="inline-flex items-center">
-            <input
-              id="can-drive"
-              v-model="canDrive"
-              type="radio"
-              class="form-radio"
-              value="yes"
-            >
-            <span class="ml-2">Yes</span>
-          </div>
-          <div class="inline-flex items-center ml-6">
-            <input
-              v-model="canDrive"
-              type="radio"
-              class="form-radio"
-              value="no"
-              checked
-            >
-            <span class="ml-2">No</span>
-          </div>
+          <URadioGroup v-model="canDrive" :options="['Yes', 'No']" />
         </div>
       </div>
 
@@ -151,34 +128,17 @@ const handleSubmit = () => {
         <label class="block text-gray-700 font-bold mb-2" for="languages"
           >Languages spoken (you can select multiple)</label
         >
-        <select
-          id="languages"
-          v-model="languages"
-          class="form-select block w-full bg-gray-200 px-4 py-3 rounded-lg focus:bg-white focus:outline-none focus:shadow-outline"
-          multiple
-        >
-          <option value="1">English</option>
-          <option value="2">German</option>
-          <option value="3">Russian</option>
-          <option value="4">French</option>
-        </select>
+        <USelect id="languages" v-model="languages" :options="languageOptions" option-attribute="name" multiple />
       </div>
 
       <div class="mb-4">
         <label class="block text-gray-700 font-bold mb-2" for="needs-reviews"
           >Other</label
         >
-        <select
-          id="needs-reviews"
-          class="form-select block w-full bg-gray-200 px-4 py-3 rounded-lg focus:bg-white focus:outline-none focus:shadow-outline"
-        >
-          <option value="1">Confidence (has reviews)</option>
-          <option value="2">Training and certificates</option>
-          <option value="4">Additional services (can cook, clean etc.)</option>
-        </select>
+        <USelect id="needs-reviews" v-model="needsReviews" :options="confidenceOptions" option-attribute="name" />
       </div>
 
-      <input type="submit">
+      <Button @click="handleSubmit">Submit</Button>
     </form>
     <SearchMap
       :center="defaultLocation as google.maps.LatLngLiteral"
