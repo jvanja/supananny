@@ -5,6 +5,7 @@ export default withNuxt(
   // Your custom configs here
   {
     rules: {
+      'vue/multi-word-component-names': 0,
       'vue/html-self-closing': ['off']
     },
   }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
 type Post = Database['public']['Tables']['posts']['Row']
+type Message = Database['public']['Tables']['messages']['Row']
 
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
@@ -18,7 +19,7 @@ const { data: posts } = await useAsyncData('posts', async () => {
     `)
     .eq('user', user.value!.id)
     .order('created_at')
-  return data as Post[]
+  return data as Array<Post & { messages: Message[] }>
 })
 
 const config = useRuntimeConfig()
@@ -28,6 +29,6 @@ console.log(config.public.apiBase, config.apiSecret)
 <template>
   <div>
     <h2>Welcome to your dashboard</h2>
-    <Jobs :positions="posts!" />
+    <Jobs :posts="posts!" />
   </div>
 </template>
