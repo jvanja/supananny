@@ -84,7 +84,7 @@ const updateBilling = async () => {
 }
 </script>
 <template>
-  <div class="max-w-2xl mx-auto mt-10 p-4 bg-white shadow-lg rounded-md">
+  <div class="divide-y divide-gray-200 lg:col-span-9 py-6 px-4 sm:p-6 lg:pb-8">
     <h2 class="text-xl font-semibold text-gray-700 mb-6">
       Billing Information
     </h2>

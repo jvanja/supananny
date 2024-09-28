@@ -8,37 +8,25 @@ module.exports = {
     './pages/**/*.vue',
     './plugins/**/*.{js,ts}',
     './*.{vue,js,ts}',
-    './nuxt.config.{js,ts}'
+    './nuxt.config.{js,ts}',
   ],
   theme: {
-    // this will delete all the default tailwind colors to limit the intelisense
-    // or you can add the to the existing once using theme.extend.colors below
-    // colors: {
     // // source https://coolors.co/f8f2f3-e2dcde-ceb1be-b97375-2d2d34
-    // // rename these
-    // Snow: '#f8f2f3', // primary 60% usage
-    // Platinum: '#e2dcde',
-    // Thistle: '#ceb1be',
-    // 'Old rose': '#b97375', // brand color 30%
-    // 'Raisin black': '#2d2d34' // CTA 10%
-    // },
+    // https://www.realtimecolors.com/?colors=323232-F8F8F8-E8CCEB-F2C9B2-B5E0C3&fonts=Inter-Inter
+    // new colors
     extend: {
       colors: {
-        'primary-500': '#4f46e6',
-        'primary-400': '#4338ca',
-        // source https://coolors.co/f8f2f3-e2dcde-ceb1be-b97375-2d2d34
-        // rename these
-        Snow: '#f8f2f3', // primary 60% usage
-        Platinum: '#e2dcde',
-        Thistle: '#ceb1be',
-        'Old rose': '#b97375', // brand color 30%
-        'Raisin black': '#2d2d34' // CTA 10%
+        text: '#050315',
+        background: '#F8F8F8',
+        primary: '#E8CCEB',
+        secondary: '#F2C9B2',
+        accent: '#B5E0C3',
       },
       fontFamily: {
         sans: ['Graphik', 'sans-serif'],
-        serif: ['Merriweather', 'serif']
-      }
-    }
+        serif: ['Merriweather', 'serif'],
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 }

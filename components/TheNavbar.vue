@@ -33,7 +33,7 @@ $bus.on('CLOSE_LOGIN_DIALOG', () => {
             <nuxt-img class="block lg:hidden h-8 w-auto" src="/workflow-mark-indigo-600.svg" alt="Workflow" />
             <nuxt-img
               class="hidden lg:block h-8 w-auto"
-              src="/workflow-logo-indigo-600-mark-gray-800-text.svg"
+              src="/logo.svg"
               alt="Workflow" />
           </NuxtLink>
           <div class="hidden md:ml-6 md:flex md:space-x-8">
