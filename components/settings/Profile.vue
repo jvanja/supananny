@@ -165,6 +165,10 @@ async function updateUserProfile(e: Event) {
           />
         </div>
 
+
+        <div class="col-span-12">
+          <VideoUploader />
+        </div>
         <div class="col-span-12">
           <SwitchGroup as="li" class="py-4 flex items-center justify-between">
             <div class="flex flex-col">
