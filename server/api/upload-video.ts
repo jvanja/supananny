@@ -1,7 +1,6 @@
 import { defineEventHandler, readMultipartFormData } from 'h3'
 import { writeFileSync } from 'fs'
 import { join } from 'path'
-// import { v4 as uuidv4 } from 'uuid' // For generating unique filenames
 
 export default defineEventHandler(async (event) => {
   // Read multipart form data
@@ -20,7 +19,6 @@ export default defineEventHandler(async (event) => {
   console.log('Uploaded file:', videoFile)
 
   // Handle cases where the filename might be undefined
-  // let filename = videoFile.filename || `video-${uuidv4()}.mp4` // Generate a filename if undefined
   const filename = videoFile.filename || `video.mkv` // Generate a filename if undefined
 
   // Define the path where the video will be stored
@@ -28,6 +26,8 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Save the file to /public/videos
+    // - TODO:
+    // Change file name to be passed user's uuid.mkv
     writeFileSync(videoPath, videoFile.data)
 
     return { success: true, message: 'Video uploaded successfully', path: videoPath }
