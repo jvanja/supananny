@@ -5,7 +5,7 @@
     <!-- Uppy Dashboard for file uploads -->
     <div ref="uppyDashboard"></div>
 
-    <button class="mt-6 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700" @click="uploadFiles">
+    <button class="mt-6 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700" @click.prevent="uploadFiles">
       Upload Video
     </button>
   </div>
@@ -56,6 +56,7 @@ onMounted(() => {
 // Handle the file upload process
 const uploadFiles = () => {
   uppyInstance.upload().then((result) => {
+  console.log(result)
     if (result.successful.length > 0) {
       alert('Video uploaded successfully!')
     } else if (result.failed.length > 0) {
@@ -70,6 +71,10 @@ onBeforeUnmount(() => {
 })
 </script>
 
-<style scoped>
+<style>
 /* Optional styling */
+@import url('~/assets/css/libs/uppy.min.css');
+.uppy-Dashboard-inner {
+  height: auto !important;
+}
 </style>
