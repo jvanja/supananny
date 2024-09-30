@@ -154,6 +154,7 @@ export type Database = {
           slug: string | null
           user_type: number | null
           uuid: string | null
+          video_url: string | null
         }
         Insert: {
           about?: string | null
@@ -171,6 +172,7 @@ export type Database = {
           slug?: string | null
           user_type?: number | null
           uuid?: string | null
+          video_url?: string | null
         }
         Update: {
           about?: string | null
@@ -188,6 +190,7 @@ export type Database = {
           slug?: string | null
           user_type?: number | null
           uuid?: string | null
+          video_url?: string | null
         }
         Relationships: [
           {
