@@ -97,14 +97,20 @@ const setPictureUrl = (url: string) => {
             <h2 class="text-lg leading-6 font-medium text-gray-900">Your video presentation</h2>
             <div class="py-2">
               <SettingsProfileUserVideo v-if="!userData!.video_url" @set-video-url="setVideoUrl" />
-              <div v-else>
-                <Button type="none" class="text-slate-700 pl-4" @click.prevent="videoDialog.open = true">
+              <div v-else class="flex items-center gap-2">
+                <Button type="none" class="text-slate-700 pl-4 text-xs" @click.prevent="videoDialog.open = true">
                   <UIcon
                     name="heroicons-solid-play"
-                    class="w-8 h-8 text-nn_secondary hover:text-nn_primary mr-2"
+                    class="w-6 h-6 text-nn_secondary hover:text-nn_primary mr-2"
                     aria-hidden="true" />
                   Play video
                 </Button>
+                <Button type="none" class="text-slate-700 pl-4 text-xs" @click.prevent="userData!.video_url = ''">
+                  <UIcon
+                    name="heroicons-solid-trash"
+                    class="w-6 h-6 text-nn_secondary hover:text-nn_primary mr-2"
+                    aria-hidden="true" />
+                  Remove</Button>
                 <TheDialog ref="videoDialog" title="Your video presentation">
                   <video :src="userData!.video_url" controls></video>
                 </TheDialog>
@@ -164,15 +170,6 @@ const setPictureUrl = (url: string) => {
           </SwitchGroup>
         </div>
 
-        <div class="col-span-12 sm:col-span-6">
-          <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
-          <input
-            id="company"
-            type="text"
-            name="company"
-            autocomplete="organization"
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" />
-        </div>
       </div>
     </div>
 

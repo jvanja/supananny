@@ -55,7 +55,7 @@ const userPicture = computed(
         <div>
           <MenuButton class="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <span class="sr-only">Open user menu</span>
-            <img class="h-8 w-8 rounded-full" :src="userPicture" alt="">
+            <img class="h-8 w-8 rounded-full object-cover" :src="userPicture" alt="">
           </MenuButton>
         </div>
         <transition

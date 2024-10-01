@@ -45,7 +45,7 @@ onMounted(() => {
 
   // Add the XHRUpload plugin to send the file to the backend
   uppyInstance.use(XHRUpload, {
-    endpoint: '/api/upload-video', // API route for file uploading
+    endpoint: '/api/uploader', // API route for file uploading
     fieldName: 'video', // Name of the form field
   })
 
