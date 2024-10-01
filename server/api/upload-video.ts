@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
   console.log('Uploaded file:', videoFile)
 
   // Handle cases where the filename might be undefined
-  const filename = videoFile.filename || `video.mkv` // Generate a filename if undefined
+  const filename = videoFile.filename!
 
   // Define the path where the video will be stored
   const videoPath = join(process.cwd(), 'public/users/videos', filename)

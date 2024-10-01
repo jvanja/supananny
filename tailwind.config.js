@@ -16,11 +16,11 @@ module.exports = {
     // new colors
     extend: {
       colors: {
-        text: '#050315',
-        background: '#F8F8F8',
-        primary: '#E8CCEB',
-        secondary: '#F2C9B2',
-        accent: '#B5E0C3',
+        tt: '#050315',
+        bg: '#F8F8F8',
+        nn_primary: '#E8CCEB', // primary
+        nn_secondary: '#F2C9B2', // secondary
+        nn_accent: '#B5E0C3', // accent
       },
       fontFamily: {
         sans: ['Graphik', 'sans-serif'],

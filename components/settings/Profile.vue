@@ -4,12 +4,7 @@ import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui
 
 const userStore = useUserStore()
 const userData = computed(() => userStore.getUserData)
-
-const userPicture = computed(
-  () =>
-    userData.value?.picture ||
-    'https://img.freepik.com/premium-vector/default-female-user-profile-icon-vector-illustration_276184-169.jpg'
-)
+const videoDialog = ref()
 
 async function updateUserProfile(e: Event) {
   e.preventDefault()
@@ -35,6 +30,11 @@ async function updateUserProfile(e: Event) {
 
 const setVideoUrl = (url: string) => {
   userData.value!.video_url = url
+}
+
+const setPictureUrl = (url: string) => {
+  console.log(url)
+  userData.value!.picture = url
 }
 </script>
 <template>
@@ -66,47 +66,7 @@ const setVideoUrl = (url: string) => {
           </div>
         </div>
 
-        <div class="mt-6 flex-grow lg:mt-0 lg:ml-6 lg:flex-grow-0 lg:flex-shrink-0">
-          <p class="text-sm font-medium text-gray-700" aria-hidden="true">Photo</p>
-          <div class="mt-1 lg:hidden">
-            <div class="flex items-center">
-              <div class="flex-shrink-0 inline-block rounded-full overflow-hidden h-12 w-12" aria-hidden="true">
-                <img class="rounded-full h-full w-full" :src="userPicture" alt="" />
-              </div>
-              <div class="ml-5 rounded-md shadow-sm">
-                <div
-                  class="group relative border border-gray-300 rounded-md py-2 px-3 flex items-center justify-center hover:bg-gray-50 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-light-blue-500">
-                  <label
-                    for="user_photo"
-                    class="relative text-sm leading-4 font-medium text-gray-700 pointer-events-none">
-                    <span>Change</span>
-                    <span class="sr-only">user photo</span>
-                  </label>
-                  <input
-                    id="user_photo"
-                    name="user_photo"
-                    type="file"
-                    class="absolute w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="hidden relative rounded-full overflow-hidden lg:block">
-            <img class="relative rounded-full w-40 h-40" :src="userPicture" alt="" />
-            <label
-              for="user-photo"
-              class="absolute inset-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center text-sm font-medium text-white opacity-0 hover:opacity-100 focus-within:opacity-100">
-              <span>Change</span>
-              <span class="sr-only">user photo</span>
-              <input
-                id="user-photo"
-                type="file"
-                name="user-photo"
-                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md" />
-            </label>
-          </div>
-        </div>
+        <SettingsProfileUserPicture :user-picture="userData!.picture || ''" @set-picture-url="setPictureUrl" />
       </div>
 
       <div class="mt-6 grid grid-cols-12 gap-6">
@@ -136,9 +96,18 @@ const setVideoUrl = (url: string) => {
           <div class="py-4">
             <h2 class="text-lg leading-6 font-medium text-gray-900">Your video presentation</h2>
             <div class="py-2">
-              <VideoUploader v-if="!userData!.video_url" @set-video-url="setVideoUrl" />
+              <SettingsProfileUserVideo v-if="!userData!.video_url" @set-video-url="setVideoUrl" />
               <div v-else>
-                <video :src="userData!.video_url" controls></video>
+                <Button type="none" class="text-slate-700 pl-4" @click.prevent="videoDialog.open = true">
+                  <UIcon
+                    name="heroicons-solid-play"
+                    class="w-8 h-8 text-nn_secondary hover:text-nn_primary mr-2"
+                    aria-hidden="true" />
+                  Play video
+                </Button>
+                <TheDialog ref="videoDialog" title="Your video presentation">
+                  <video :src="userData!.video_url" controls></video>
+                </TheDialog>
               </div>
             </div>
           </div>

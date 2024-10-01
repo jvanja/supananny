@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, onBeforeUnmount } from 'vue'
+import { onMounted, ref } from 'vue'
 import Uppy from '@uppy/core'
 import Dashboard from '@uppy/dashboard'
 import Webcam from '@uppy/webcam'
