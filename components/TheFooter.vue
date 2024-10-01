@@ -5,7 +5,7 @@
     <div class="sm:flex sm:items-center sm:justify-between">
       <NuxtLink to="/" class="flex items-center mb-4 sm:mb-0">
         <img
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+          src="/logo.png"
           class="mr-3 h-8"
           alt="Flowbite Logo"
         />
