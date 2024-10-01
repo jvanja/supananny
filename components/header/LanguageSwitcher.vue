@@ -12,6 +12,7 @@ const availableLocales = computed(() => {
 })
 
 const getFlagIcon = (code) => {
+  code = code === 'en' ? 'gb' : code
   return `cif-${code}`
 }
 </script>
@@ -21,7 +22,7 @@ const getFlagIcon = (code) => {
     :key="locale.code"
     class="cursor-pointer flex items-center space-x-2"
     @click="switchLocale(locale.code)">
-    <UIcon :name="getFlagIcon(locale.code)" class="h-6 w-4" />
+    <UIcon :name="getFlagIcon(locale.code)" class="h-6 w-5" />
     <!-- <span>{{ locale.name }}</span> -->
   </div>
 </template>
