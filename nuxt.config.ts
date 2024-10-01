@@ -31,9 +31,26 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/eslint',
     '@nuxt/ui',
+    '@nuxt/content',
+    '@nuxtjs/i18n',
   ],
   supabase: {
     redirect: false,
+  },
+  i18n: {
+    vueI18n: './i18n.config.ts',
+    strategy: 'prefix_except_default',
+    defaultLocale: 'en',
+    locales: [
+      {
+        code: 'en',
+        name: 'English'
+      },
+      {
+        code: 'rs',
+        name: 'Srpski'
+      }
+    ]
   },
   imports: {
     dirs: ['stores'],
