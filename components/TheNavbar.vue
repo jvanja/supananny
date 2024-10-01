@@ -31,10 +31,7 @@ $bus.on('CLOSE_LOGIN_DIALOG', () => {
           </div>
           <NuxtLink to="/" class="flex-shrink-0 flex items-center">
             <nuxt-img class="block lg:hidden h-8 w-auto" src="/workflow-mark-indigo-600.svg" alt="Workflow" />
-            <nuxt-img
-              class="hidden lg:block h-8 w-auto"
-              src="/logo.png"
-              alt="Workflow" />
+            <nuxt-img class="hidden lg:block h-8 w-auto" src="/logo.png" alt="Workflow" />
           </NuxtLink>
           <div class="hidden md:ml-6 md:flex md:space-x-8">
             <!-- Current: "", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
@@ -53,15 +50,19 @@ $bus.on('CLOSE_LOGIN_DIALOG', () => {
           </div>
         </div>
 
-        <!-- user menu desktop -->
-        <UserMenu v-if="user" />
+        <div class="flex gap-4">
+          <!-- user menu desktop -->
+          <HeaderUserMenu v-if="user" />
 
-        <div v-else class="flex items-center">
-          <Button size="sm" type="none" class="mr-2" @click="theDialog.open = true">Login</Button>
-          <Anchor size="sm" type="button" href="/signup">Join</Anchor>
-          <TheDialog ref="theDialog" title="">
-            <LogIn />
-          </TheDialog>
+          <div v-else class="flex items-center">
+            <Button size="sm" type="none" class="mr-2" @click="theDialog.open = true">Login</Button>
+            <Anchor size="sm" type="button" href="/signup">Join</Anchor>
+            <TheDialog ref="theDialog" title="">
+              <LogIn />
+            </TheDialog>
+          </div>
+
+          <HeaderLanguageSwitcher />
         </div>
       </div>
     </div>
