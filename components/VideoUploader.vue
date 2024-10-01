@@ -4,10 +4,6 @@
 
     <!-- Uppy Dashboard for file uploads -->
     <div ref="uppyDashboard"></div>
-
-    <button class="mt-6 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700" @click.prevent="uploadFiles">
-      Upload Video
-    </button>
   </div>
 </template>
 
@@ -18,6 +14,7 @@ import Dashboard from '@uppy/dashboard'
 import Webcam from '@uppy/webcam'
 import XHRUpload from '@uppy/xhr-upload'
 
+const emit = defineEmits(['setVideoUrl'])
 const uppyDashboard = ref(null)
 let uppyInstance
 
@@ -51,30 +48,18 @@ onMounted(() => {
     endpoint: '/api/upload-video', // API route for file uploading
     fieldName: 'video', // Name of the form field
   })
-})
 
-// Handle the file upload process
-const uploadFiles = () => {
-  uppyInstance.upload().then((result) => {
-  console.log(result)
-    if (result.successful.length > 0) {
-      alert('Video uploaded successfully!')
-    } else if (result.failed.length > 0) {
-      alert('Upload failed!')
+  uppyInstance.on('upload-success', (file, response) => {
+    console.log(file.name, response.uploadURL);
+
+    if(response.status === 200) {
+      emit('setVideoUrl', response.body.path)
     }
   })
-}
-
-// Clean up Uppy instance on component unmount
-onBeforeUnmount(() => {
-  uppyInstance.close()
 })
 </script>
 
 <style>
 /* Optional styling */
 @import url('~/assets/css/libs/uppy.min.css');
-.uppy-Dashboard-inner {
-  height: auto !important;
-}
 </style>

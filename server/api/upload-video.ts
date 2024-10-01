@@ -30,7 +30,9 @@ export default defineEventHandler(async (event) => {
     // Change file name to be passed user's uuid.mkv
     writeFileSync(videoPath, videoFile.data)
 
-    return { success: true, message: 'Video uploaded successfully', path: videoPath }
+    const baseUrl = process.env.BASE_URL
+    const videoUrl = `${baseUrl}/users/videos/${filename}`
+    return { success: true, message: 'Video uploaded successfully', path: videoUrl }
   } catch (error) {
     console.error('Error saving video:', error)
     return { success: false, message: 'Error saving video' }
