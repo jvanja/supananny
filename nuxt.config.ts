@@ -37,6 +37,8 @@ export default defineNuxtConfig({
   supabase: {
     redirect: false,
   },
+  // this is how to integrate i18n with the content module
+  // https://github.com/nuxt/content/issues/2589
   i18n: {
     vueI18n: './i18n.config.ts',
     strategy: 'prefix_except_default',
