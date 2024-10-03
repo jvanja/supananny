@@ -100,7 +100,7 @@ useHead({
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
           <img
             class="relative rounded-lg shadow-lg"
-            src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg"
+            src="https://tailwindui.com/plus/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg"
             alt="App screenshot"
           />
         </div>
