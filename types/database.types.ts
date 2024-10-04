@@ -70,18 +70,21 @@ export type Database = {
           id: number
           message: string
           post_id: number | null
+          user: string | null
         }
         Insert: {
           created_at?: string
           id?: number
           message?: string
           post_id?: number | null
+          user?: string | null
         }
         Update: {
           created_at?: string
           id?: number
           message?: string
           post_id?: number | null
+          user?: string | null
         }
         Relationships: [
           {
@@ -89,6 +92,13 @@ export type Database = {
             columns: ["post_id"]
             isOneToOne: false
             referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -122,6 +132,21 @@ export type Database = {
           },
         ]
       }
+      responsibilities: {
+        Row: {
+          id: number
+          name: string | null
+        }
+        Insert: {
+          id?: number
+          name?: string | null
+        }
+        Update: {
+          id?: number
+          name?: string | null
+        }
+        Relationships: []
+      }
       user_type: {
         Row: {
           id: number
@@ -141,7 +166,6 @@ export type Database = {
         Row: {
           about: string | null
           available_to_hire: boolean
-          can_drive: boolean | null
           created_at: string | null
           first_name: string | null
           full_time_or_part_time: boolean | null
@@ -151,6 +175,7 @@ export type Database = {
           location: string | null
           picture: string | null
           radius: number | null
+          responsibilities: number[] | null
           slug: string | null
           user_type: number | null
           uuid: string | null
@@ -159,7 +184,6 @@ export type Database = {
         Insert: {
           about?: string | null
           available_to_hire?: boolean
-          can_drive?: boolean | null
           created_at?: string | null
           first_name?: string | null
           full_time_or_part_time?: boolean | null
@@ -169,6 +193,7 @@ export type Database = {
           location?: string | null
           picture?: string | null
           radius?: number | null
+          responsibilities?: number[] | null
           slug?: string | null
           user_type?: number | null
           uuid?: string | null
@@ -177,7 +202,6 @@ export type Database = {
         Update: {
           about?: string | null
           available_to_hire?: boolean
-          can_drive?: boolean | null
           created_at?: string | null
           first_name?: string | null
           full_time_or_part_time?: boolean | null
@@ -187,6 +211,7 @@ export type Database = {
           location?: string | null
           picture?: string | null
           radius?: number | null
+          responsibilities?: number[] | null
           slug?: string | null
           user_type?: number | null
           uuid?: string | null

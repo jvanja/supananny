@@ -3,15 +3,20 @@ import type { Database } from '~/types/database.types'
 import type { Loader } from '@googlemaps/js-api-loader'
 type Nanny = Database['public']['Tables']['users_meta']['Row']
 
+const supabase = useSupabaseClient<Database>()
+
+const { data: nannys } = await useAsyncData('users_meta', async () => {
+  const { data } = await supabase.from('users_meta').select(`*`).neq('location', null)
+  return data as Nanny[]
+})
 const props = defineProps<{
   center: google.maps.LatLngLiteral
-  nannys: Nanny[]
   loader: Loader
 }>()
 
 const mapCanvas = ref()
 
-const locations = props.nannys!.map((a) => {
+const locations = nannys.value!.map((a) => {
   return {
     lat: Number(a.location!.split(',')[0].trim()),
     lng: Number(a.location!.split(',')[1].trim()),
@@ -42,7 +47,7 @@ const loadGMaps = async () => {
       const { AdvancedMarkerElement } = await props.loader.importLibrary('marker')
 
       const markers: google.maps.marker.AdvancedMarkerElement[] = []
-      props.nannys.forEach((place, index) => {
+      nannys.value!.forEach((place, index) => {
         markers.push(
           new AdvancedMarkerElement({
             map,
@@ -63,7 +68,7 @@ const loadGMaps = async () => {
       markers.forEach((marker, index) => {
         marker.addListener('click', () => {
           infoWindow.close()
-          infoWindow.setContent(infoWindowContent(props.nannys[index]))
+          infoWindow.setContent(infoWindowContent(nannys.value![index]))
           infoWindow.open(marker.map, marker)
         })
       })

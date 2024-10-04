@@ -19,10 +19,6 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     async fetchAndSetUserData() {
-      // const userData = await fetchUserData()
-      // if (userData) {
-      //   this.userData = userData
-      // }
       const supabase = useSupabaseClient<Database>()
       const { data } = await supabase.auth.getSession()
       if (data.session) {
