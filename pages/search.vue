@@ -34,8 +34,7 @@ const languageOptions = [
 ]
 const confidenceOptions = [
   { name: 'Confidence (has reviews)', value: '1' },
-  { name: 'Training and certificates', value: '2' },
-  { name: 'Additional services (can cook, clean etc.)', value: '4' },
+  { name: 'Training and certificates', value: '2' }
 ]
 const childrenNumberOptions = ['1', '2', '3', '4']
 const lookingFor = ref()
@@ -74,7 +73,7 @@ const handleSubmit = () => {
 </script>
 <template>
   <div class="flex">
-    <form class="p-6 max-w-sm" @submit.prevent="handleSubmit">
+    <form class="p-6 pl-0 max-w-md" @submit.prevent="handleSubmit">
       <div class="mb-4">
         <label class="block text-gray-700 font-bold mb-2" for="looking-for">What are you looking for?</label>
         <USelect id="looking-for" v-model="lookingFor" :options="lookingForOptions" option-attribute="name" />
@@ -117,7 +116,7 @@ const handleSubmit = () => {
       </div>
 
       <div class="mb-4">
-        <h3>Responsibilities</h3>
+        <h3 class="block text-gray-700 font-bold mb-2" for="start-date">Responsibilities</h3>
         <div class="mt-2">
           <UCheckbox
             v-for="(responsibility, index) in responsibilitiesOptions"
@@ -147,6 +146,6 @@ const handleSubmit = () => {
 
       <Button @click="handleSubmit">Submit</Button>
     </form>
-    <SearchMap :center="defaultLocation as google.maps.LatLngLiteral" :loader="loader" />
+    <SearchMap class="hidden lg:block" :center="defaultLocation as google.maps.LatLngLiteral" :loader="loader" />
   </div>
 </template>

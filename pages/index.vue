@@ -9,14 +9,6 @@ useHead({
   title: 'Supa Nanny',
   meta: [{ name: 'description', content: 'My amazing site.' }],
 })
-
-// const user = useSupabaseUser()
-//
-// watch(user, (user) => {
-//   if (user) {
-//     navigateTo('/home')
-//   }
-// })
 </script>
 <template>
   <div class="bg-gray-50">
